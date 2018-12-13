@@ -7,9 +7,8 @@ package it.unipd.tos.business;
 import it.unipd.tos.business.exception.RestaurantBillException;
 import it.unipd.tos.model.MenuItem;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BillCreator implements RestaurantBill {
     @Override
@@ -37,14 +36,34 @@ public class BillCreator implements RestaurantBill {
         return totalAmount;
     }
 
-    private static List<MenuItem> getFilteredItemList (List<MenuItem> itemsOrdered, MenuItem.ItemType itemType) {
-        return itemsOrdered.stream().filter((menuItem -> menuItem.getItemType() == itemType)).collect(Collectors.toList());
+    private static List<MenuItem> getFilteredItemTypeList (List<MenuItem> itemsOrdered, MenuItem.ItemType itemType) {
+        List<MenuItem> filteredList = new ArrayList<>();
+
+        for(MenuItem p : itemsOrdered) {
+            if (p.getItemType() == itemType) {
+                filteredList.add(p);
+            }
+        }
+
+        return filteredList;
+    }
+
+    private static double getMinPrice (List<MenuItem> itemsOrdered) {
+        double minPrice = Integer.MAX_VALUE;
+
+        for (MenuItem p : itemsOrdered) {
+            if(p.getPrice()<minPrice) {
+                minPrice = p.getPrice();
+            }
+        }
+
+        return minPrice;
     }
 
     private static double pizzaDiscount (List<MenuItem> itemsOrdered) {
-        List<MenuItem> pizzasOrdered = getFilteredItemList(itemsOrdered, MenuItem.ItemType.PIZZE);
+        List<MenuItem> pizzasOrdered = getFilteredItemTypeList(itemsOrdered, MenuItem.ItemType.PIZZE);
 
-        return pizzasOrdered.size()>10 ? pizzasOrdered.stream().min(Comparator.comparing(MenuItem::getPrice)).get().getPrice() : 0;
+        return pizzasOrdered.size()>10 ? getMinPrice(pizzasOrdered) : 0;
     }
 
     private static double generalDiscount (double totalAmount) {

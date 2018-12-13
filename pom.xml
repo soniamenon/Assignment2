@@ -60,6 +60,7 @@
                 <configuration>
                     <outputDirectory>${basedir}/target</outputDirectory>
                     <format>xml</format>
+                    <check/>
                 </configuration>
             </plugin>
 
