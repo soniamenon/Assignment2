@@ -24,7 +24,7 @@
         <module name="CyclomaticComplexity" />
 
         <module name="LineLength">
-            <property name="max" value="100" />
+            <property name="max" value="150" />
         </module>
 
         <module name="MethodLength" />
