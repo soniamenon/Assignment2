@@ -23,14 +23,14 @@ public class BillCreator implements RestaurantBill {
 
     private static double getTotalAmount (List<MenuItem> itemsOrdered) {
         double totalAmount = 0;
-        double totalDiscount = 0;
 
         for(MenuItem i : itemsOrdered) {
             totalAmount += i.getPrice();
         }
 
-        totalDiscount += pizzaDiscount(itemsOrdered);
-        return totalAmount - totalDiscount;
+        totalAmount -= pizzaDiscount(itemsOrdered);
+        totalAmount -= generalDiscount(totalAmount);
+        return totalAmount;
     }
 
     private static List<MenuItem> getFilteredItemList (List<MenuItem> itemsOrdered, MenuItem.ItemType itemType) {
@@ -41,5 +41,9 @@ public class BillCreator implements RestaurantBill {
         List<MenuItem> pizzasOrdered = getFilteredItemList(itemsOrdered, MenuItem.ItemType.PIZZE);
 
         return pizzasOrdered.size()>10 ? pizzasOrdered.stream().min(Comparator.comparing(MenuItem::getPrice)).get().getPrice() : 0;
+    }
+
+    private static double generalDiscount (double totalAmount) {
+        return totalAmount>100 ? totalAmount*5/100 : 0;
     }
 }
