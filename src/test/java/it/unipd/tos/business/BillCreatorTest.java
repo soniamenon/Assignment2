@@ -28,7 +28,7 @@ public class BillCreatorTest {
         items.add(new MenuItem(MenuItem.ItemType.PRIMI_PIATTI, "A03", 30));
         items.add(new MenuItem(MenuItem.ItemType.PRIMI_PIATTI, "B02", 20));
 
-        assertEquals(123.5, billCreator.getOrderPrice(items), 0.1);
+        assertEquals(114, billCreator.getOrderPrice(items), 0.1);
     }
 
     /**
