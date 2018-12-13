@@ -12,6 +12,20 @@ import java.util.List;
 public class BillCreator implements RestaurantBill {
     @Override
     public double getOrderPrice(List<MenuItem> itemsOrdered) throws RestaurantBillException {
-        return 0;
+        if (itemsOrdered.isEmpty()) {
+            return 0;
+        }
+
+        return getTotalAmount(itemsOrdered);
+    }
+
+    private static double getTotalAmount (List<MenuItem> itemsOrdered) {
+        double totalAmount = 0;
+
+        for(MenuItem i : itemsOrdered) {
+            totalAmount += i.getPrice();
+        }
+
+        return totalAmount;
     }
 }
