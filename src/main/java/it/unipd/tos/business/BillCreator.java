@@ -18,6 +18,10 @@ public class BillCreator implements RestaurantBill {
             return 0;
         }
 
+        if(itemsOrdered.size()>20) {
+            throw new RestaurantBillException();
+        }
+
         return getTotalAmount(itemsOrdered);
     }
 
